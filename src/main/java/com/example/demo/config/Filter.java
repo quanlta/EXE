@@ -37,7 +37,6 @@ public class Filter extends OncePerRequestFilter {
 
     private final List<String> AUTH_PERMISSION = List.of(
             "/swagger-ui/**",
-            "/swagger-ui/index.html#/product-api/getAll",
             "/v3/api-docs/**",
             "/swagger-resources/**",
             "/api/account/login",
