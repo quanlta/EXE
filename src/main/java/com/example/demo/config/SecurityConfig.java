@@ -53,17 +53,23 @@ public class SecurityConfig {
 
 
 
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("https://quick-tish-fpt123-e653ba7.app"); // Allow specific origin
-        config.addAllowedHeader("*"); // Allow all headers
-        config.addAllowedMethod("*"); // Allow all methods (GET, POST, etc.)
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
+@Bean
+public CorsFilter corsFilter() {
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    
+    // Cho phép nhiều nguồn gốc (origins)
+    config.addAllowedOriginPattern("https://quick-tish-fpt123-e653ba7.app");
+    config.addAllowedOriginPattern("http://localhost:5173"); // Thêm localhost:5173
+
+    config.addAllowedHeader("*"); // Cho phép tất cả các headers
+    config.addAllowedMethod("*"); // Cho phép tất cả các phương thức (GET, POST, PUT, DELETE, v.v.)
+    
+    source.registerCorsConfiguration("/**", config);
+    return new CorsFilter(source);
+}
+
 
 
     @Bean
