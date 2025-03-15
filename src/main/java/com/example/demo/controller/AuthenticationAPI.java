@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("/api")
 @SecurityRequirement(name = "api")
 @CrossOrigin("*")
 public class AuthenticationAPI {
@@ -40,8 +40,8 @@ public class AuthenticationAPI {
         return ResponseEntity.ok(account);
     }
 
-    @GetMapping
-
+    @GetMapping("account")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity getAllAccount() {
         List<Account> accounts = authenticationService.getAllAccount();
         return ResponseEntity.ok(accounts);
@@ -59,6 +59,7 @@ public class AuthenticationAPI {
         return ResponseEntity.ok("Password reset successfully");
     }
     @PutMapping("/account/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
 
     public ResponseEntity updateAccount(@PathVariable Long id, @Valid @RequestBody UpdateAccountRequest updateAccountRequest) {
         AccountResponse updatedAccount = authenticationService.updateAccount(id, updateAccountRequest);

@@ -1,14 +1,13 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Role;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,20 +18,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-
     String image;
-
 
     @NotBlank(message = "Name is mandatory")
     String name;
 
-
     String description;
-
-
     String price;
+    String createdBy;
 
+    @Enumerated(EnumType.STRING)
+    Status status;
 
+    @Enumerated(EnumType.STRING)
+    Pending pending;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore
@@ -51,4 +50,41 @@ public class Product {
     )
     @JsonIgnore
     List<Orders> orders;
+
+    @ManyToMany(mappedBy = "products")
+    @JsonIgnore
+    private List<SalePromotion> salePromotions;
+
+
+    public enum Status {
+        TRUE, FALSE;
+
+        @JsonCreator
+        public static Status fromString(String value) {
+            return value != null ? Status.valueOf(value.toUpperCase()) : null;
+        }
+    }
+
+    public enum Pending {
+        TRUE, FALSE;
+
+        @JsonCreator
+        public static Pending fromString(String value) {
+            return value != null ? Pending.valueOf(value.toUpperCase()) : null;
+        }
+    }
+
+    public void approve() {
+        this.status = Status.TRUE;
+        this.pending = Pending.FALSE;
+    }
+
+    public void reject() {
+        this.status = Status.FALSE;
+        this.pending = Pending.FALSE;
+    }
+
+    public void requestApproval() {
+        this.pending = Pending.TRUE;
+    }
 }

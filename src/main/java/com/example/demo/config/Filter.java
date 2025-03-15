@@ -39,13 +39,11 @@ public class Filter extends OncePerRequestFilter {
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
-            "/api/account/login",
-            "/api/account/register",
-            "/api/account/forgot-password",
-            "/api/product",
+            "/api/login",
+            "/api/register",
+            "/api/forgot-password",
             "/api/product/{id}",
-            "/api/product/upload",
-            "api/coffeeshops/**",
+            "/api/product/getAll",
             "/api/orders/payment-callback/**"
 
     );

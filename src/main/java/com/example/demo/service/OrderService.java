@@ -129,7 +129,7 @@ public class OrderService {
         String tmnCode = "0I712H9B";
         String secretKey = "ZOPSQ8G5KQFVU2PDYNEA0VB05BQUVSZO";
         String vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        String returnUrl = "http://localhost:8080/api/orders/payment-callback/" + orders.getId(); //frontend
+        String returnUrl = "https://www.google.com.vn/?hl=vi" + orders.getId(); //frontend
         String currCode = "VND";
 
         Map<String, String> vnpParams = new TreeMap<>();
@@ -203,33 +203,45 @@ public class OrderService {
         // create transaction
         Transactions transactions1 = new Transactions();
         //VNPay -> Member
-        Account user = authenticationService.getCurrentAccount();
+        Account member = authenticationService.getCurrentAccount();
         transactions1.setFrom(null);
-        transactions1.setTo(user);
+        transactions1.setTo(member);
         transactions1.setPayment(payment);
         transactions1.setStatus(TransactionsEnum.SUCCESS);
-        transactions1.setDescription("VNPay to User");
+        transactions1.setDescription("VNPay to Member");
 
         setTransactions.add(transactions1);
 
         Transactions transactions2 = new Transactions();
         //VNPay -> ADMIN
         Account admin = accountRepository.findAccountByRole(Role.ADMIN);
-        transactions2.setFrom(user);
+        transactions2.setFrom(member);
         transactions2.setTo(admin);
         transactions2.setPayment(payment);
         transactions2.setStatus(TransactionsEnum.SUCCESS);
-        transactions2.setDescription("User to Admin");
-        float newBalance = admin.getBalance() + order.getTotal();
+        transactions2.setDescription("Member to Admin");
+        float newBalance = admin.getBalance() + order.getTotal() * 0.10f;
         admin.setBalance(newBalance);
 
 
         setTransactions.add(transactions2);
 
 
+        //ADMIN -> OWNER
+        Transactions transactions3 = new Transactions();
+        transactions3.setPayment(payment);
+        transactions3.setStatus(TransactionsEnum.SUCCESS);
+        transactions3.setDescription("Admin to Owner");
+        transactions3.setFrom(admin);
+        Account owner = order.getOrderDetail().get(0).getProduct().getAccount();
+        transactions3.setTo(owner);
+        float newOwnerBalance = owner.getBalance() + order.getTotal() * (1 - 0.10f);
+        owner.setBalance(newOwnerBalance);
+        setTransactions.add(transactions3);
 
 
         accountRepository.save(admin);
+        accountRepository.save(owner);
         payment.setTransactions(setTransactions);
         paymentRepository.save(payment);
 
