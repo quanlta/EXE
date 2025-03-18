@@ -27,6 +27,9 @@ public class Product {
     String price;
     String createdBy;
 
+    int quantity;
+
+
     @Enumerated(EnumType.STRING)
     Status status;
 

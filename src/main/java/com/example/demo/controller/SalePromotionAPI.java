@@ -21,6 +21,7 @@ public class SalePromotionAPI {
     SalePromotionService salePromotionService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
 
     public ResponseEntity<SalePromotion> create(@RequestBody SalePromotion salePromotion) {
         SalePromotion newSalePromotion = salePromotionService.create(salePromotion);
@@ -40,6 +41,7 @@ public class SalePromotionAPI {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
 
     public ResponseEntity<SalePromotion> update(@PathVariable Long id, @RequestBody SalePromotion salePromotion) {
         SalePromotion updatedSalePromotion = salePromotionService.update(id, salePromotion);
@@ -54,14 +56,14 @@ public class SalePromotionAPI {
     }
 
     @PutMapping("/{id}/approve")
-    @PreAuthorize("hasAuthority('STAFF')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     public ResponseEntity<SalePromotion> approve(@PathVariable Long id) {
         SalePromotion approvedSalePromotion = salePromotionService.approve(id);
         return ResponseEntity.ok(approvedSalePromotion);
     }
 
     @PutMapping("/{id}/reject")
-    @PreAuthorize("hasAuthority('STAFF')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     public ResponseEntity<SalePromotion> reject(@PathVariable Long id) {
         SalePromotion rejectedSalePromotion = salePromotionService.reject(id);
         return ResponseEntity.ok(rejectedSalePromotion);

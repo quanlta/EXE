@@ -29,6 +29,10 @@ public class RegisterRequest {
     @Pattern(regexp = "(84|0[3|5|7|8|9])+(\\d{8})", message = "Invalid phone")
     String Phone;
 
+
+    @NotBlank(message = "Address is mandatory")
+    String address;
+
     Role role;
 
 }

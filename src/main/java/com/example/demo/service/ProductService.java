@@ -22,7 +22,7 @@ public class ProductService {
             product.setStatus(Product.Status.TRUE);
             product.setPending(Product.Pending.FALSE);
         } else {
-            product.setStatus(Product.Status.FALSE);
+            product.setStatus(Product.Status.TRUE);
             product.setPending(Product.Pending.TRUE);
         }
         return productRepository.save(product);
@@ -59,10 +59,10 @@ public class ProductService {
 
         switch (action.toLowerCase()) {
             case "approve":
-                product.setPending(Product.Pending.FALSE);
+                product.setPending(Product.Pending.TRUE);
                 break;
             case "reject":
-                product.setPending(Product.Pending.TRUE);
+                product.setPending(Product.Pending.FALSE);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid action: " + action);

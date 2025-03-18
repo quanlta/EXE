@@ -22,6 +22,7 @@ public class ProductAPI {
     ProductService productService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('OWNER')")
     public ResponseEntity<Product> create(@RequestBody Product product, Authentication authentication) {
         String userRole = authentication.getAuthorities().iterator().next().getAuthority();
         Product newProduct = productService.create(product, userRole);
@@ -41,6 +42,7 @@ public class ProductAPI {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product, Authentication authentication) {
         String userRole = authentication.getAuthorities().iterator().next().getAuthority();
         Product updatedProduct = productService.update(id, product, userRole);
@@ -51,7 +53,7 @@ public class ProductAPI {
 
 
     @PutMapping("/changeStatus/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     public ResponseEntity<Product> changeStatus(@PathVariable Long id, @RequestParam String action) {
         Product product = productService.changeStatus(id, action);
         return ResponseEntity.ok(product);

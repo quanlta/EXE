@@ -32,6 +32,9 @@ public class Account implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
+    String address;
+
+
     @NotBlank(message = "Username can not be blank!")
     @Column(name = "Username")
     String username;
