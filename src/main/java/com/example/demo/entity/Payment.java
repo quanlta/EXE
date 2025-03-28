@@ -27,8 +27,6 @@ public class Payment {
             @JsonIgnore
     Orders orders;
 
-
-
     @OneToMany(mappedBy = "payment",cascade = CascadeType.ALL)
             @JsonIgnore
     Set<Transactions> transactions;

@@ -45,7 +45,14 @@ public class Product {
     @JsonIgnore
     Account account;
 
-    
+    @ManyToMany
+    @JoinTable(
+            name = "cart_product",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "cart_id")
+    )
+    @JsonIgnore
+    List<Cart> carts;
 
     @ManyToMany
     @JoinTable(
