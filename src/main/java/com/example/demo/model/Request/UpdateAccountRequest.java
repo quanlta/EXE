@@ -5,6 +5,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
 
+import java.util.List;
 
 
 @Data
@@ -15,4 +16,5 @@ public class UpdateAccountRequest {
     String password;
     @Enumerated(EnumType.STRING)
     Role role;
+    String address;
 }

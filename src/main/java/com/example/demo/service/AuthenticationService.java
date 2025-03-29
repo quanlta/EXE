@@ -138,20 +138,18 @@ public class AuthenticationService implements UserDetailsService {
     }
     public AccountResponse updateAccount(Long id, UpdateAccountRequest updateAccountRequest) {
         Account account = accountRepository.findAccountById(id);
-        if(account == null) {
+        if (account == null) {
             throw new EntityNotFoundException("Account not found");
         }
         account.setUsername(updateAccountRequest.getUsername());
         account.setPhone(updateAccountRequest.getPhone());
         account.setEmail(updateAccountRequest.getEmail());
-
-
         account.setPassword(updateAccountRequest.getPassword());
         account.setRole(updateAccountRequest.getRole());
+        account.setAddress(updateAccountRequest.getAddress());
         accountRepository.save(account);
         return modelMapper.map(account, AccountResponse.class);
     }
-
 
 
 

@@ -32,7 +32,9 @@ public class Account implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    String address;
+
+
+    String Address;
 
 
     @NotBlank(message = "Username can not be blank!")
@@ -107,8 +109,6 @@ public class Account implements UserDetails {
     @OneToMany(mappedBy = "account")
     @JsonIgnore
     List<Product> products;
-
-
 
 
 

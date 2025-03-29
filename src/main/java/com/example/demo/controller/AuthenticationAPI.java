@@ -59,7 +59,6 @@ public class AuthenticationAPI {
         return ResponseEntity.ok("Password reset successfully");
     }
     @PutMapping("/account/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
 
     public ResponseEntity updateAccount(@PathVariable Long id, @Valid @RequestBody UpdateAccountRequest updateAccountRequest) {
         AccountResponse updatedAccount = authenticationService.updateAccount(id, updateAccountRequest);
