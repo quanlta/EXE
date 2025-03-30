@@ -5,13 +5,16 @@ import com.example.demo.entity.Account;
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.CartItem;
 import com.example.demo.repository.AccountRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/api/cart")
+@SecurityRequirement(name = "api")
+@CrossOrigin(origins = "*")
 public class CartController {
 
     @Autowired
