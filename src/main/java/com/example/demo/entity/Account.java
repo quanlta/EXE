@@ -33,8 +33,7 @@ public class Account implements UserDetails {
     Role role;
 
 
-
-    String Address;
+    String address;
 
 
     @NotBlank(message = "Username can not be blank!")
@@ -109,6 +108,8 @@ public class Account implements UserDetails {
     @OneToMany(mappedBy = "account")
     @JsonIgnore
     List<Product> products;
+
+
 
 
 
