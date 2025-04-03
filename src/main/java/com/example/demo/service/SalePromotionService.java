@@ -31,6 +31,7 @@ public class SalePromotionService {
 
     public SalePromotion update(Long id, SalePromotion salePromotion) {
         SalePromotion existingSalePromotion = getById(id);
+        existingSalePromotion.setName(salePromotion.getName());
         existingSalePromotion.setDiscountPercentage(salePromotion.getDiscountPercentage());
         existingSalePromotion.setDiscountAmount(salePromotion.getDiscountAmount());
         existingSalePromotion.setCreatedAt(salePromotion.getCreatedAt());

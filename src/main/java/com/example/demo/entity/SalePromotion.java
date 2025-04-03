@@ -16,7 +16,7 @@ public class SalePromotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
+    String name;
     double discountPercentage;
     double discountAmount;
 
