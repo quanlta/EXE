@@ -51,7 +51,12 @@ public class ProductAPI {
         return ResponseEntity.ok(updatedProduct);
     }
 
-
+    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
     @PutMapping("/changeStatus/{id}")

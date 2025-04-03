@@ -48,8 +48,6 @@ public class SalePromotionAPI {
         return ResponseEntity.ok(updatedSalePromotion);
     }
 
-    @DeleteMapping("/{id}")
-
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         salePromotionService.delete(id);
         return ResponseEntity.noContent().build();
@@ -67,5 +65,12 @@ public class SalePromotionAPI {
     public ResponseEntity<SalePromotion> reject(@PathVariable Long id) {
         SalePromotion rejectedSalePromotion = salePromotionService.reject(id);
         return ResponseEntity.ok(rejectedSalePromotion);
+    }
+
+    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+    public ResponseEntity<Void> deleteSalePromotion(@PathVariable Long id) {
+        salePromotionService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

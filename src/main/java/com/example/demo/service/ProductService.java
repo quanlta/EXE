@@ -82,4 +82,9 @@ public class ProductService {
         }
         return "USER";
     }
+
+    public void deleteProduct(Long id) {
+        Product product = getProductById(id);
+        productRepository.delete(product);
+    }
 }
