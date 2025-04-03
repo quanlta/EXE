@@ -64,8 +64,10 @@ public class AuthenticationService implements UserDetailsService {
 
             } else if (e.getMessage().contains(account.getEmail())){
                 throw  new DuplicateEntity("Duplicate email!");
-            } else {
+            } else if (e.getMessage().contains(account.getPhone())){
                 throw  new DuplicateEntity("Duplicate phone!");
+            } else {
+                throw new RuntimeException("Error while saving account: " + e.getMessage());
             }
         }
 
