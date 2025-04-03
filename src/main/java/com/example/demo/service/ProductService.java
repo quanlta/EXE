@@ -44,7 +44,7 @@ public class ProductService {
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setImage(product.getImage());
-
+        existingProduct.setPending(Product.Pending.FALSE);
 //        if (!"OWNER".equalsIgnoreCase(userRole)) {
 //            existingProduct.setPending(Product.Pending.TRUE);
 //        }
