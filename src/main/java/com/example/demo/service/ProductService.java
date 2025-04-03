@@ -53,7 +53,6 @@ public class ProductService {
     }
 
 
-
     public Product changeStatus(Long id, String action) {
         Product product = getProductById(id);
 
@@ -67,7 +66,9 @@ public class ProductService {
             default:
                 throw new IllegalArgumentException("Invalid action: " + action);
         }
-
+        if (product.getPending() == Product.Pending.TRUE) {
+            product.setStatus(Product.Status.FALSE);
+        }
         return productRepository.save(product);
     }
 
