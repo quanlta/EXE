@@ -37,7 +37,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product update(Long id, Product product, String userRole) {
+    public Product update(Long id, Product product) {
         Product existingProduct = getProductById(id);
 
         existingProduct.setName(product.getName());
@@ -45,9 +45,9 @@ public class ProductService {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setImage(product.getImage());
 
-        if (!"OWNER".equalsIgnoreCase(userRole)) {
-            existingProduct.setPending(Product.Pending.TRUE);
-        }
+//        if (!"OWNER".equalsIgnoreCase(userRole)) {
+//            existingProduct.setPending(Product.Pending.TRUE);
+//        }
 
         return productRepository.save(existingProduct);
     }

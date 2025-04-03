@@ -42,10 +42,12 @@ public class ProductAPI {
     }
 
     @PutMapping("/{id}")
-    //@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product, Authentication authentication) {
-        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
-        Product updatedProduct = productService.update(id, product, userRole);
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+//    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product, Authentication authentication) {
+//        String userRole = authentication.getAuthorities().iterator().next().getAuthority();
+
+    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
+        Product updatedProduct = productService.update(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
 
