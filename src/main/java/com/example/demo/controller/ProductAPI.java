@@ -42,7 +42,7 @@ public class ProductAPI {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+    //@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
     public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product, Authentication authentication) {
         String userRole = authentication.getAuthorities().iterator().next().getAuthority();
         Product updatedProduct = productService.update(id, product, userRole);
