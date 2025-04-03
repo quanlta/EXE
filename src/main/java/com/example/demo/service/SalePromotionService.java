@@ -43,8 +43,9 @@ public class SalePromotionService {
 
     public void delete(Long id) {
         SalePromotion salePromotion = getById(id);
-        salePromotion.setPending(true);
-        salePromotionRepository.save(salePromotion);
+        salePromotionRepository.delete(salePromotion);
+//        salePromotion.setPending(true);
+//        salePromotionRepository.save(salePromotion);
     }
 
     public SalePromotion approve(Long id) {
