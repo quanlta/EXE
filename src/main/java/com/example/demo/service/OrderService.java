@@ -129,7 +129,7 @@ public class OrderService {
         String tmnCode = "0I712H9B";
         String secretKey = "ZOPSQ8G5KQFVU2PDYNEA0VB05BQUVSZO";
         String vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        String returnUrl = "https://www.google.com.vn/?hl=vi" + orders.getId(); //frontend
+        String returnUrl = "https://http://localhost:5173" + orders.getId(); //frontend
         String currCode = "VND";
 
         Map<String, String> vnpParams = new TreeMap<>();
@@ -227,21 +227,21 @@ public class OrderService {
         setTransactions.add(transactions2);
 
 
-        //ADMIN -> OWNER
+        //ADMIN -> STAFF
         Transactions transactions3 = new Transactions();
         transactions3.setPayment(payment);
         transactions3.setStatus(TransactionsEnum.SUCCESS);
         transactions3.setDescription("Admin to Owner");
         transactions3.setFrom(admin);
-        Account owner = order.getOrderDetail().get(0).getProduct().getAccount();
-        transactions3.setTo(owner);
-        float newOwnerBalance = owner.getBalance() + order.getTotal() * (1 - 0.10f);
-        owner.setBalance(newOwnerBalance);
+        Account staff = order.getOrderDetail().get(0).getProduct().getAccount();
+        transactions3.setTo(staff);
+        float newOwnerBalance = staff.getBalance() + order.getTotal() * (1 - 0.10f);
+        staff.setBalance(newOwnerBalance);
         setTransactions.add(transactions3);
 
 
         accountRepository.save(admin);
-        accountRepository.save(owner);
+        accountRepository.save(staff);
         payment.setTransactions(setTransactions);
         paymentRepository.save(payment);
 
