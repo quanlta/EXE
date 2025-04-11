@@ -59,6 +59,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOriginPattern("https://vsos.vercel.app"); // Allow specific origin
+        config.addAllowedOriginPattern("http://localhost:5173"); // Allow localhost for development
         config.addAllowedHeader("*"); // Allow all headers
         config.addAllowedMethod("*"); // Allow all methods (GET, POST, etc.)
         source.registerCorsConfiguration("/**", config);
