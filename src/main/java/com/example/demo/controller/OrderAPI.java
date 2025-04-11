@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Account;
+import com.example.demo.entity.Enum.OrderStatus;
 import com.example.demo.entity.Orders;
 import com.example.demo.model.Request.OrderRequest;
 import com.example.demo.repository.OrderRepository;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -33,10 +35,14 @@ public class OrderAPI {
     @Autowired
     AuthenticationService authenticationService;
     @PostMapping
-    public ResponseEntity create(@RequestBody OrderRequest orderRequest) throws Exception {
-        String vnPayURL  = orderService.createUrl(orderRequest);
-        return ResponseEntity.ok(vnPayURL);
+    public ResponseEntity create(@RequestBody OrderRequest orderRequest) {
+        Orders order = orderService.create(orderRequest);
+        return ResponseEntity.ok(order);
     }
+//    public ResponseEntity create(@RequestBody OrderRequest orderRequest) throws Exception {
+//        String vnPayURL  = orderService.createUrl(orderRequest);
+//        return ResponseEntity.ok(vnPayURL);
+//    }
     @GetMapping
     public ResponseEntity getAll(){
         Account account = authenticationService.getCurrentAccount();
@@ -64,7 +70,19 @@ public class OrderAPI {
         orderService.createTransaction(orderId);
         return ResponseEntity.ok("success");
     }
-
+    @PatchMapping("/{id}/status")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('OWNER')")
+    public ResponseEntity updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
+        Orders order = orderService.get(id); // Fetch the order by ID
+        try {
+            OrderStatus newStatus = OrderStatus.valueOf(status.toUpperCase()); // Convert status to enum
+            order.setStatus(newStatus); // Update the status
+            orderRepository.save(order); // Save the updated order
+            return ResponseEntity.ok(order);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid status value");
+        }
+    }
 
 //    @GetMapping("/payment-callback/{orderId}")
 //    public void paymentCallback(

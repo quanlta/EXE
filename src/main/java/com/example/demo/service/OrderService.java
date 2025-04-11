@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.*;
+import com.example.demo.entity.Enum.OrderStatus;
 import com.example.demo.entity.Enum.PaymentEnums;
 import com.example.demo.entity.Enum.Role;
 import com.example.demo.entity.Enum.TransactionsEnum;
@@ -42,7 +43,6 @@ public class OrderService {
 
 
     public Orders create(OrderRequest orderRequest) {
-
         Account customer = authenticationService.getCurrentAccount();
 
         Orders order = new Orders();
@@ -51,9 +51,9 @@ public class OrderService {
 
         order.setCustomer(customer);
         order.setDate(new Date());
+        order.setStatus(OrderStatus.PENDING); // Đặt trạng thái là PENDING
 
         for (OrderDetailRequest orderDetailRequest : orderRequest.getDetail()) {
-
             Product product = productRepository.findProductById(orderDetailRequest.getProductId());
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setQuantity(orderDetailRequest.getQuantity());
@@ -61,17 +61,14 @@ public class OrderService {
             orderDetail.setProduct(product);
             orderDetail.setOrder(order);
 
-
             orderDetails.add(orderDetail);
-
             total += Float.parseFloat(product.getPrice()) * orderDetailRequest.getQuantity();
-
         }
+
         order.setOrderDetail(orderDetails);
         order.setTotal(total);
 
         return orderRepository.save(order);
-
     }
     public List<Orders> getAll() {
         Account customer = authenticationService.getCurrentAccount();

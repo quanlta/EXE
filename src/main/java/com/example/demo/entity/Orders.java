@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.entity.Enum.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -31,6 +32,9 @@ public class Orders {
     @ManyToMany(mappedBy = "orders")
     @JsonIgnore
     List<Product> products;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @OneToOne(mappedBy = "orders")
     @JsonIgnore
