@@ -71,7 +71,7 @@ public class OrderAPI {
         return ResponseEntity.ok("success");
     }
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('OWNER')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
     public ResponseEntity updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
         Orders order = orderService.get(id); // Fetch the order by ID
         try {
