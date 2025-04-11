@@ -90,6 +90,13 @@ public class OrderAPI {
         List<Orders> userOrders = orderRepository.findOrdersByCustomer(currentUser); // Fetch orders for the user
         return ResponseEntity.ok(userOrders); // Return the list of orders
     }
+
+    @GetMapping("/completed")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
+    public ResponseEntity<List<Orders>> getAllCompletedOrders() {
+        List<Orders> completedOrders = orderRepository.findByStatus(OrderStatus.COMPLETED);
+        return ResponseEntity.ok(completedOrders);
+    }
 //    @GetMapping("/payment-callback/{orderId}")
 //    public void paymentCallback(
 //            @PathVariable Long orderId,
