@@ -83,12 +83,11 @@ public class OrderAPI {
             return ResponseEntity.badRequest().body("Invalid status value");
         }
     }
-    @GetMapping("/my-orders")
-    @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<List<Orders>> getUserOrders() {
-        Account currentUser = authenticationService.getCurrentAccount(); // Get the current logged-in user
-        List<Orders> userOrders = orderRepository.findOrdersByCustomer(currentUser); // Fetch orders for the user
-        return ResponseEntity.ok(userOrders); // Return the list of orders
+    @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Orders>> getAllOrdersForAdmin() {
+        List<Orders> allOrders = orderRepository.findAll(); // Fetch all orders
+        return ResponseEntity.ok(allOrders); // Return the list of orders
     }
 
     @GetMapping("/completed")
