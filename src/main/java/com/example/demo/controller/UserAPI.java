@@ -14,8 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
-
-
 @RestController
 @RequestMapping("api/user")
 @CrossOrigin("*")
@@ -30,6 +28,14 @@ public class UserAPI {
 
     @Autowired
     UserService userService;
+
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
+        userService.deleteAccount(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @PostMapping
 
@@ -59,11 +65,11 @@ public class UserAPI {
         User updateUser = userService.update(Id, user);
         return ResponseEntity.ok(updateUser);
     }
-    @DeleteMapping("{Id}")
-    public ResponseEntity deleteUser(@PathVariable long Id){
-        User deleteUser = userService.delete(Id);
-        return ResponseEntity.ok(deleteUser);
-    }
+//    @DeleteMapping("{Id}")
+//    public ResponseEntity deleteUser(@PathVariable long Id){
+//        User deleteUser = userService.delete(Id);
+//        return ResponseEntity.ok(deleteUser);
+//    }
 
 
 }

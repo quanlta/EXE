@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Account;
 import com.example.demo.entity.User;
 import com.example.demo.exception.DuplicateEntity;
 import com.example.demo.model.Request.UserRequest;
 import com.example.demo.model.Response.UserResponse;
+import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -20,6 +22,9 @@ public class UserService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    AccountRepository accountRepository;
 
     @Autowired
     AuthenticationService authenticationService;
@@ -58,12 +63,19 @@ public class UserService {
         return userRepository.save(oldUser);
     }
 
-    public User delete(long id) {
-        User user = userRepository.findUserById(id);
-        if (user == null)
-            throw new EntityNotFoundException("User not found");
 
-        userRepository.delete(user);
-        return user;
+    public void deleteAccount(Long id) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
+        accountRepository.delete(account);
     }
+
+//    public User delete(long id) {
+//        User user = userRepository.findUserById(id);
+//        if (user == null)
+//            throw new EntityNotFoundException("User not found");
+//
+//        userRepository.delete(user);
+//        return user;
+//    }
 }
