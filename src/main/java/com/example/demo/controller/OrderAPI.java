@@ -71,7 +71,7 @@ public class OrderAPI {
         return ResponseEntity.ok("success");
     }
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('MANAGER')")
     public ResponseEntity updateOrderStatus(@PathVariable Long id, @RequestParam String status) {
         Orders order = orderService.get(id); // Fetch the order by ID
         try {
@@ -91,7 +91,7 @@ public class OrderAPI {
     }
 
     @GetMapping("/completed")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF')or hasAuthority('MANAGER')")
     public ResponseEntity<List<Orders>> getAllCompletedOrders() {
         List<Orders> completedOrders = orderRepository.findByStatus(OrderStatus.COMPLETED);
         return ResponseEntity.ok(completedOrders);
