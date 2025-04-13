@@ -84,7 +84,7 @@ public class OrderAPI {
         }
     }
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('ADMIN')" or hasAuthority('STAFF') or hasAuthority('MANAGER'))
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('STAFF') or hasAuthority('MANAGER')")
     public ResponseEntity<List<Orders>> getAllOrdersForAdmin() {
         List<Orders> allOrders = orderRepository.findAll(); // Fetch all orders
         return ResponseEntity.ok(allOrders); // Return the list of orders
